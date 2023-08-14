@@ -2,6 +2,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type UserID=string
 
+
+
 export interface User{
     name:string;
     email:string;
@@ -12,7 +14,7 @@ export interface UserWithID extends User{
     id:UserID;
 }
 
-const initialState: UserWithID[]=[
+const DEFAULT_STATE: UserWithID[]=[
     {
         id:"1",
         name: "Peter Doe",
@@ -30,8 +32,13 @@ const initialState: UserWithID[]=[
           name: "rock howard",
           email:"rh99@email.com",
           github:"ReppukenDev"
-        },
+        }
 ]
+
+const initialState: UserWithID[] =(()=>{
+    const persistedState = localStorage.getItem("__redux__state__");
+	return persistedState ? JSON.parse(persistedState).users : DEFAULT_STATE;
+})();
 
 export const usersSlice = createSlice({
     name:'users',
@@ -40,10 +47,20 @@ export const usersSlice = createSlice({
         deleteUserById:(state,action:PayloadAction<UserID>)=>{
             const id = action.payload;
             return state.filter((user)=>user.id !== id);
-        }
+        },
+        addNewUser:(state,action:PayloadAction<User>)=>{
+            const id = crypto.randomUUID();
+            return[...state,{id,...action.payload}]
+        },
+        rollbackUser: (state, action: PayloadAction<UserWithID>) => {
+			const isUserAlreadyDefined = state.some(user => user.id === action.payload.id)
+			if (!isUserAlreadyDefined) {
+				state.push(action.payload)
+			}
+		}
 
-    }
+    },
 })
 
 export default usersSlice.reducer
-export const {deleteUserById} = usersSlice.actions
+export const {deleteUserById,addNewUser,rollbackUser} = usersSlice.actions
