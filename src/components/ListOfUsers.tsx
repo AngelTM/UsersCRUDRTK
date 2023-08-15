@@ -11,6 +11,8 @@ import {
     Badge
   } from "@tremor/react";
 import { useUserActions } from "../hooks/useUserActions";
+import { CreateNewUser } from "./CreateNewUser";
+import { Link } from "react-router-dom";
   
   
 
@@ -19,6 +21,7 @@ import { useUserActions } from "../hooks/useUserActions";
     const users = useAppSelector((state)=>state.users)
     const {removeUser} = useUserActions()
     return (
+      <>
       <Card>
         <Title>
         Users
@@ -53,7 +56,8 @@ import { useUserActions } from "../hooks/useUserActions";
                 <TableCell className="text-right">{item.name}</TableCell>
                 <TableCell className="text-right">{item.email}</TableCell>
                 <TableCell className="text-right">
-                <button type='button'>
+                <div className="flex justify-between">
+                <Link className="py-10" to={`/editUser/${item.id}`}>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -68,7 +72,7 @@ import { useUserActions } from "../hooks/useUserActions";
                       d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10'
                     />
                   </svg>
-                </button>
+                </Link>
                 <button onClick={() => removeUser(item.id)} type='button'>
                   <svg
                     aria-label='Remove element'
@@ -86,11 +90,14 @@ import { useUserActions } from "../hooks/useUserActions";
                     />
                   </svg>
                 </button>
+                </div>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </Card>
+      <CreateNewUser></CreateNewUser>
+      </>
     );
   }

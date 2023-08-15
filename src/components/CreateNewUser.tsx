@@ -6,6 +6,7 @@ export function CreateNewUser() {
 	const { addUser } = useUserActions()
 	const [result, setResult] = useState<"ok" | "error" | null>(null)
 
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 
@@ -26,6 +27,11 @@ export function CreateNewUser() {
 		setResult("ok")
 		form.reset()
 	}
+	const handleUpdate = () => {
+		
+
+		
+	}
 
 	return (
 		<Card style={{ marginTop: "16px" }}>
@@ -37,8 +43,11 @@ export function CreateNewUser() {
 				<TextInput name="github" placeholder="GitHub user name" />
 
 				<div>
-					<Button type="submit" style={{ marginTop: "16px" }}>
+					<Button type="submit" className="bg-green-300 rounded-md mt-5"  >
 						Create User
+					</Button>
+					<Button type="button" onClick={handleUpdate} className="bg-sky-400 rounded-md ml-5 mt-5" >
+						Update User
 					</Button>
 					<span>
 						{result === "ok" && (

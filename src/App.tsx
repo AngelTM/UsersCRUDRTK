@@ -1,15 +1,20 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { CreateNewUser } from './components/CreateNewUser'
 import { ListOfUsers } from './components/ListOfUsers'
+import { EditUserForm } from './components/EditUser'
 
 function App() {
 
 
   return (
     <>
-      <h1>projecto</h1>
-      <ListOfUsers></ListOfUsers>
-      <CreateNewUser></CreateNewUser>
+      <h1>project</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<ListOfUsers/>} />
+          <Route path='/editUser/:id' element={<EditUserForm/>} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
